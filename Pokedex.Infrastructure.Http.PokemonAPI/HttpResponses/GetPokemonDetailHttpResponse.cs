@@ -1,10 +1,11 @@
 using Pokedex.Domain.Shared;
+using System.Text.Json.Serialization;
 
 namespace Pokedex.Infrastructure.Http.PokemonAPI.HttpResponses;
 
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
-
+/// <summary>
+/// Represents the HTTP response structure for detailed information about a specific Pokemon.
+/// </summary>
 public class GetPokemonDetailHttpResponse
 {
     public GetPokemonDetailHttpResponse()
@@ -23,12 +24,22 @@ public class GetPokemonDetailHttpResponse
 
     [JsonPropertyName("is_legendary")] public bool IsLegendary { get; set; }
 
+    /// <summary>
+    /// Gets the default name of the Pokemon in the default language.
+    /// </summary>
     public string? DefaultName => Names?.GetLocalizedValue(Language.DefaultCulture)?.Name;
+
     public string? HabitatName => Habitat?.Name;
+
+    /// <summary>
+    /// Gets the default flavor text of the Pokemon in the default language.
+    /// </summary>
     public string? DefaultFlavorText => FlavorTextEntries.GetLocalizedValue(Language.DefaultCulture)?.FlavorText;
 }
 
-public class FlavorTextEntry: ILocalizedResource
+#region sub classes
+
+public class FlavorTextEntry : ILocalizedResource
 {
     [JsonPropertyName("flavor_text")] public string FlavorText { get; set; }
 
@@ -50,3 +61,5 @@ public interface ILocalizedResource
 {
     NamedApiResource Language { get; }
 }
+
+#endregion

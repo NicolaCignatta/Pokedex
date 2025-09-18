@@ -10,28 +10,43 @@ using Pokedex.Infrastructure.Http.PokemonAPI.HttpResponses;
 
 namespace Pokedex.Infrastructure.Http.PokemonAPI;
 
-public class PokemonApiHttpClient : HttpClientService, IPokemonReadOnlyRepository
+/// <summary>
+/// Pokemon API HTTP client implementation for accessing Pokemon data from an external API.
+/// </summary>
+public class PokemonApiHttpClient(HttpClient httpClient, ILogger<HttpClientService> logger)
+    : HttpClientService(httpClient, logger), IPokemonReadOnlyRepository
 {
-    public PokemonApiHttpClient(HttpClient httpClient, ILogger<HttpClientService> logger) : base(httpClient, logger)
-    {
-    }
-
-    public async Task<OneOf<Pokemon, NotFound, DomainError>> GetPokemonDetail(string name)
+    /// <summary>
+    /// Method to get detailed information about a specific Pokemon by its name.
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<OneOf<Pokemon, NotFound, DomainError>> GetPokemonDetail(string name,CancellationToken cancellationToken = default)
     {
         var endpoint = PokemonApiEndpoints.GetPokemonDetail(name);
         if (endpoint == null)
+        {
+            logger.LogError("GetPokemonDetail: Invalid endpoint for Pokemon name: {PokemonName}", name);
             return DomainError.GetPokemonDetailError();
-        var httpResponse = await GetAsync<GetPokemonDetailHttpResponse>(endpoint);
+        }
+
+        var httpResponse = await GetAsync<GetPokemonDetailHttpResponse>(endpoint,cancellationToken);
         return httpResponse.Match<OneOf<Pokemon, NotFound, DomainError>>(
             pokemon =>
             {
-                if(pokemon == null)
+                if (pokemon == null)
+                {
+                    logger.LogError("GetPokemonDetail: Null response for Pokemon name: {PokemonName}", name);
                     return DomainError.GetPokemonDetailError();
+                }
+                logger.LogInformation("GetPokemonDetail: Successfully retrieved details for Pokemon name: {PokemonName}", name);
                 return Pokemon.Materialize(pokemon.Id, pokemon.DefaultName, pokemon.DefaultFlavorText,
                     pokemon.HabitatName, pokemon.IsLegendary);
             },
             error =>
             {
+                logger.LogError("GetPokemonDetail: Error {StatusCode} for Pokemon name: {PokemonName}", error.StatusCode, name);
                 return error.StatusCode switch
                 {
                     (int)HttpStatusCode.NotFound => new NotFound(),

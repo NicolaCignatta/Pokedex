@@ -4,6 +4,9 @@ using OneOf;
 
 namespace Pokedex.Shared.Infrastructure.Http;
 
+/// <summary>
+/// Base HTTP client service for making requests and handling responses.
+/// </summary>
 public class HttpClientService
 {
     private readonly HttpClient _httpClient;
@@ -30,6 +33,7 @@ public class HttpClientService
         CancellationToken cancellationToken = default)
         where TResponse : class
     {
+        _logger.LogDebug("Starting GET request to {Endpoint}", endpoint);
         var rawResult = await GetRawAsync(endpoint, cancellationToken);
 
         return await rawResult.Match<Task<OneOf<TResponse, HttpError>>>(
@@ -38,6 +42,8 @@ public class HttpClientService
                 if (!response.IsSuccessStatusCode)
                 {
                     var errorBody = await response.Content.ReadAsStringAsync(cancellationToken);
+                    _logger.LogError("GET request to {Endpoint} failed with status {StatusCode}", endpoint,
+                        response.StatusCode);
                     return new HttpError(
                         $"HTTP request failed with status {response.StatusCode}",
                         (int)response.StatusCode,
@@ -46,7 +52,10 @@ public class HttpClientService
 
                 var content = await response.Content.ReadAsStringAsync(cancellationToken);
                 if (string.IsNullOrWhiteSpace(content))
+                {
+                    _logger.LogError("GET request to {Endpoint} returned empty content", endpoint);
                     return new HttpError("Response was empty", (int)response.StatusCode);
+                }
 
                 try
                 {

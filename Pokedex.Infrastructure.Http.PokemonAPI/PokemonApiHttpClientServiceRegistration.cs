@@ -8,6 +8,9 @@ using Polly.Extensions.Http;
 
 namespace Pokedex.Infrastructure.Http.PokemonAPI;
 
+/// <summary>
+/// Registration class for HTTP client services.
+/// </summary>
 public static class HttpClientServiceRegistration
 {
     public static IServiceCollection AddHttpClientServices(this IServiceCollection services,
@@ -26,8 +29,7 @@ public static class HttpClientServiceRegistration
 
         return services;
     }
-
-
+    
     private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy(HttpClientOptions options)
     {
         var delays = Backoff.DecorrelatedJitterBackoffV2(

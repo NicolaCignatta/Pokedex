@@ -1,5 +1,8 @@
 namespace Pokedex.Shared.Infrastructure.Http;
 
+/// <summary>
+/// Http client configuration. Now they are got from appsettings.json.
+/// </summary>
 public class HttpClientOptions
 {
     public string BaseAddress { get; set; }

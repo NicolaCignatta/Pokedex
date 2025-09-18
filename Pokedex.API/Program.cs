@@ -1,6 +1,7 @@
 using Microsoft.OpenApi.Models;
 using Pokedex.API.UseCases.GetPokemonDetail;
 using Pokedex.Domain;
+using Pokedex.Infrastructure.Cache.Redis;
 using Pokedex.Infrastructure.Http.PokemonAPI;
 
 namespace Pokedex.API;
@@ -15,13 +16,16 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddDomainServices();
         builder.Services.AddHttpClientServices(builder.Configuration);
+        builder.Services.AddOutputCaching(builder.Configuration);
+
 
         builder.Services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo
             {
                 Title = "Pokedex API",
-                Version = "v1"
+                Version = "v1",
+                Description = "A digital Pokédex API for modern trainers: fetch Pokémon details and catch ‘em all effortlessly!"
             });
         });
 
@@ -36,7 +40,18 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+        
+        app.Use(async (context, next) =>
+        {
+            if (context.Request.Path == "/")
+            {
+                context.Response.Redirect("/swagger");
+                return;
+            }
+            await next();
+        });
 
+        app.UseOutputCache();
         app.UseHttpsRedirection();
         app.MapGetPokemonDetailEndpoint();
         app.Run();

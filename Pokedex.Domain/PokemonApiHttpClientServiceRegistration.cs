@@ -4,6 +4,9 @@ using Pokedex.Domain.Queries.GetPokemonDetailQuery;
 
 namespace Pokedex.Domain;
 
+/// <summary>
+/// Installation class for registering domain components.
+/// </summary>
 public static class DomainRegistration
 {
     public static IServiceCollection AddDomainServices(this IServiceCollection services)

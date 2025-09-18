@@ -2,10 +2,21 @@ using Pokedex.Domain.Interfaces.Aggregates;
 
 namespace Pokedex.Domain.Aggregates;
 
+/// <summary>
+/// Pokemon aggregate root representing a Pokemon entity.
+/// </summary>
 public class Pokemon : IAggregateRoot<int>
 {
     #region constructors
 
+    /// <summary>
+    /// Pokemon constructor is private to enforce the use of the factory method.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="name"></param>
+    /// <param name="description"></param>
+    /// <param name="habitat"></param>
+    /// <param name="isLegendary"></param>
     private Pokemon(int id, string name, string description, string habitat, bool isLegendary)
     {
         Id = id;
@@ -19,6 +30,15 @@ public class Pokemon : IAggregateRoot<int>
 
     #region factories
 
+    /// <summary>
+    /// Materialize creates a new instance of the Pokemon aggregate from external source data.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="name"></param>
+    /// <param name="description"></param>
+    /// <param name="habitat"></param>
+    /// <param name="isLegendary"></param>
+    /// <returns></returns>
     public static Pokemon Materialize(int id, string name, string description, string habitat, bool isLegendary)
     {
         return new Pokemon(id, name, description, habitat, isLegendary);

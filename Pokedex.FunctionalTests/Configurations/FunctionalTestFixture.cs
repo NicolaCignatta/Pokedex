@@ -2,21 +2,23 @@ namespace Pokedex.FunctionalTests.Configurations;
 public class FunctionalTestFixture : IAsyncLifetime
 {
     public ApiTestContainer ApiContainer { get; private set; }
+    public RedisTestContainer RedisTestContainer { get; private set; }
     public HttpClient HttpClient { get; private set; }
 
-    public Task InitializeAsync()
+    public async Task InitializeAsync()
     {
-        ApiContainer = new ApiTestContainer();
+        RedisTestContainer = new RedisTestContainer();
+        ApiContainer = new ApiTestContainer(RedisTestContainer);
+        await RedisTestContainer.InitializeAsync();
         HttpClient = ApiContainer.CreateClient();
-        return Task.CompletedTask;
     }
 
     public async Task DisposeAsync()
     {
         HttpClient.Dispose();
         await ApiContainer.DisposeAsync();
+        await RedisTestContainer.DisposeAsync();
     }
-
 
     [CollectionDefinition("ApiTestCollection")]
     public class ApiTestCollection : ICollectionFixture<FunctionalTestFixture>

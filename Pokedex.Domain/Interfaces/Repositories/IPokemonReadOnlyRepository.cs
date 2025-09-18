@@ -1,21 +1,11 @@
 using Pokedex.Domain.Aggregates;
+using Pokedex.Domain.Shared;
+using OneOf;
+using OneOf.Types;
 
-namespace Pokedex.Domain.Interfaces;
+namespace Pokedex.Domain.Interfaces.Repositories;
 
 public interface IPokemonReadOnlyRepository
 {
-    Task<Pokemon?> GetPokemonByName(GetPokemonByNameQuery query);
+    Task<OneOf<Pokemon, NotFound, DomainError>> GetPokemonDetail(string name);
 }
-
-#region IPokemonReadOnlyRepository queries
-
-/// <summary>
-/// 
-/// </summary>
-/// <param name="Name">Pokemon name</param>
-public record GetPokemonByNameQuery(
-    string Name
-);
-
-#endregion
-

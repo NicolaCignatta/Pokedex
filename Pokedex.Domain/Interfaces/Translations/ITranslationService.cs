@@ -1,4 +1,4 @@
-namespace Pokedex.Domain.Interfaces;
+namespace Pokedex.Domain.Interfaces.Translations;
 
 public interface ITranslationService
 {

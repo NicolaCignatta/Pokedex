@@ -1,41 +1,44 @@
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.OpenApi.Models;
+using Pokedex.API.UseCases.GetPokemonDetail;
+using Pokedex.Domain;
+using Pokedex.Infrastructure.Http.PokemonAPI;
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+namespace Pokedex.API;
 
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+public class Program
 {
-    app.MapOpenApi();
-}
-
-app.UseHttpsRedirection();
-
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
+    public static void Main(string[] args)
     {
-        var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-            .ToArray();
-        return forecast;
-    })
-    .WithName("GetWeatherForecast");
+        var builder = WebApplication.CreateBuilder(args);
 
-app.Run();
+        builder.Services.AddOpenApi();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddDomainServices();
+        builder.Services.AddHttpClientServices(builder.Configuration);
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "Pokedex API",
+                Version = "v1"
+            });
+        });
+
+        builder.Logging.ClearProviders();
+        builder.Logging.AddConsole();
+
+        var app = builder.Build();
+
+        if (app.Environment.IsDevelopment())
+        {
+            app.MapOpenApi();
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+
+        app.UseHttpsRedirection();
+        app.MapGetPokemonDetailEndpoint();
+        app.Run();
+    }
 }

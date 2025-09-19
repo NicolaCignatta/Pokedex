@@ -25,8 +25,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Pokedex.Infrastructure.Http.PokemonAPI\Pokedex.Infrastructure.Http.PokemonAPI.csproj" />
-      <ProjectReference Include="..\Pokedex.Shared.Infrastructure.Http\Pokedex.Shared.Infrastructure.Http.csproj" />
+      <ProjectReference Include="..\..\src\Pokedex.Infrastructure.Http.PokemonAPI\Pokedex.Infrastructure.Http.PokemonAPI.csproj" />
+      <ProjectReference Include="..\..\src\Pokedex.Shared.Infrastructure.Http\Pokedex.Shared.Infrastructure.Http.csproj" />
+      <ProjectReference Include="..\..\src\Pokedex.Infrastructure.Http.PokemonAPI\Pokedex.Infrastructure.Http.PokemonAPI.csproj" />
+      <ProjectReference Include="..\..\src\Pokedex.Shared.Infrastructure.Http\Pokedex.Shared.Infrastructure.Http.csproj" />
     </ItemGroup>
 
     <ItemGroup>

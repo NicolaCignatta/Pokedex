@@ -10,31 +10,31 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{311B1D59-691E-4244-84E6-572EE992462D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.Domain", "Pokedex.Domain\Pokedex.Domain.csproj", "{396858C8-5E5F-430E-9C85-D94AED62C844}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.Domain", "src\Pokedex.Domain\Pokedex.Domain.csproj", "{396858C8-5E5F-430E-9C85-D94AED62C844}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.API", "Pokedex.API\Pokedex.API.csproj", "{9D918678-0CAB-4560-9D68-A872B77F5482}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.API", "src\Pokedex.API\Pokedex.API.csproj", "{9D918678-0CAB-4560-9D68-A872B77F5482}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.UnitTests", "Pokedex.UnitTests\Pokedex.UnitTests.csproj", "{981DDF70-B30B-448B-AE59-F995FD1C5E78}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.UnitTests", "test\Pokedex.UnitTests\Pokedex.UnitTests.csproj", "{981DDF70-B30B-448B-AE59-F995FD1C5E78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.FunctionalTests", "Pokedex.FunctionalTests\Pokedex.FunctionalTests.csproj", "{2A06BB2A-C6B4-4F13-AEA4-C0694B0CB6DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.FunctionalTests", "test\Pokedex.FunctionalTests\Pokedex.FunctionalTests.csproj", "{2A06BB2A-C6B4-4F13-AEA4-C0694B0CB6DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.Infrastructure.Http.PokemonAPI", "Pokedex.Infrastructure.Http.PokemonAPI\Pokedex.Infrastructure.Http.PokemonAPI.csproj", "{D5F5D7C3-366A-4F7D-BCFF-6C235870A956}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.Infrastructure.Http.PokemonAPI", "src\Pokedex.Infrastructure.Http.PokemonAPI\Pokedex.Infrastructure.Http.PokemonAPI.csproj", "{D5F5D7C3-366A-4F7D-BCFF-6C235870A956}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.Infrastructure.Translation.FunTranslation", "Pokedex.Infrastructure.Translation.FunTranslation\Pokedex.Infrastructure.Translation.FunTranslation.csproj", "{6BD57077-85C9-40BB-B85B-C328618A101D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.Infrastructure.Translation.FunTranslation", "src\Pokedex.Infrastructure.Translation.FunTranslation\Pokedex.Infrastructure.Translation.FunTranslation.csproj", "{6BD57077-85C9-40BB-B85B-C328618A101D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{2F6AEFC1-C8FC-4342-9006-CCA2B0A738E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.Shared.Infrastructure.Http", "Pokedex.Shared.Infrastructure.Http\Pokedex.Shared.Infrastructure.Http.csproj", "{2209ECA7-9F9E-4FE4-BE44-DD228E4D2205}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.Shared.Infrastructure.Http", "src\Pokedex.Shared.Infrastructure.Http\Pokedex.Shared.Infrastructure.Http.csproj", "{2209ECA7-9F9E-4FE4-BE44-DD228E4D2205}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.Shared.Infrastructure.Http.UnitTests", "Pokedex.Shared.Infrastructure.Http.UnitTests\Pokedex.Shared.Infrastructure.Http.UnitTests.csproj", "{76F93782-6213-48E2-A22A-F342AFF45AA8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.Shared.Infrastructure.Http.UnitTests", "test\Pokedex.Shared.Infrastructure.Http.UnitTests\Pokedex.Shared.Infrastructure.Http.UnitTests.csproj", "{76F93782-6213-48E2-A22A-F342AFF45AA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.IntegrationTests", "Pokedex.IntegrationTests\Pokedex.IntegrationTests.csproj", "{C5A2BB14-2069-4DC4-ADFF-45BE2A157E7D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.IntegrationTests", "test\Pokedex.IntegrationTests\Pokedex.IntegrationTests.csproj", "{C5A2BB14-2069-4DC4-ADFF-45BE2A157E7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.Shared.API", "Pokedex.Shared.API\Pokedex.Shared.API.csproj", "{731C615E-B289-46C6-A972-C469F2C8C0E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.Shared.API", "src\Pokedex.Shared.API\Pokedex.Shared.API.csproj", "{731C615E-B289-46C6-A972-C469F2C8C0E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.Infrastructure.Cache.Redis", "Pokedex.Infrastructure.Cache.Redis\Pokedex.Infrastructure.Cache.Redis.csproj", "{52E66649-47CD-42C0-A845-A768F4DDEB7D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.Infrastructure.Cache.Redis", "src\Pokedex.Infrastructure.Cache.Redis\Pokedex.Infrastructure.Cache.Redis.csproj", "{52E66649-47CD-42C0-A845-A768F4DDEB7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.ManualTests", "Pokedex.ManualTests\Pokedex.ManualTests.csproj", "{32E5437B-D841-46FD-98A6-B8E823D8C3AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pokedex.ManualTests", "test\Pokedex.ManualTests\Pokedex.ManualTests.csproj", "{32E5437B-D841-46FD-98A6-B8E823D8C3AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

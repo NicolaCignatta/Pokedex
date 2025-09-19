@@ -1,6 +1,15 @@
 ﻿{
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "profiles": {
+    "Pokedex.Localhost": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "https://localhost:7251;",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Localhost"
+      }
+    },
     "Pokedex.Development": {
       "commandName": "Project",
       "dotnetRunMessages": true,

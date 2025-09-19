@@ -8,17 +8,32 @@ namespace Pokedex.Infrastructure.Translation.FunTranslation;
 /// </summary>
 public static class FunTranslationApiEndpoints
 {
-    
+    /// <summary>
+    /// Get Yoda translation endpoint with the text to translate.
+    /// </summary>
+    /// <param name="textToTranslate"></param>
+    /// <returns></returns>
     public static string? GetTranslateYodaApi(string textToTranslate)
     {
         return string.IsNullOrWhiteSpace(textToTranslate) ? null : $"translate/yoda.json?text={textToTranslate}";
     }
     
+    /// <summary>
+    /// Get Shakespeare translation endpoint with the text to translate.
+    /// </summary>
+    /// <param name="textToTranslate"></param>
+    /// <returns></returns>
     public static string? GetTranslateShakespeareApi(string textToTranslate)
     {
         return string.IsNullOrWhiteSpace(textToTranslate) ? null : $"translate/shakespeare.json?text={textToTranslate}";
     }
     
+    /// <summary>
+    /// Factory method to get the appropriate translation endpoint based on the language code.
+    /// </summary>
+    /// <param name="language"></param>
+    /// <param name="textToTranslate"></param>
+    /// <returns></returns>
     public static string? GetTranslationEndpointByLanguage(string language, string textToTranslate)
     {
         if(string.IsNullOrWhiteSpace(language) || string.IsNullOrWhiteSpace(textToTranslate))

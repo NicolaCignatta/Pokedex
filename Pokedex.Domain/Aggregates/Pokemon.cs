@@ -63,6 +63,10 @@ public class Pokemon : IAggregateRoot<int>
 
     #region commands
 
+    /// <summary>
+    /// TranslateDescription updates the Description property with a translated version if it's different from the current one.
+    /// </summary>
+    /// <param name="descriptionTranslated"></param>
     public void TranslateDescription(string descriptionTranslated)
     {
         if (string.IsNullOrWhiteSpace(descriptionTranslated) ||
@@ -75,6 +79,10 @@ public class Pokemon : IAggregateRoot<int>
 
     #region language methods
 
+    /// <summary>
+    /// Finds the appropriate language for the Pokemon based on its attributes.
+    /// </summary>
+    /// <returns></returns>
     private Language DetectLanguage()
     {
         if (IsLegendary || HabitatName.Equals(Habitat.Cave.Name, StringComparison.OrdinalIgnoreCase))

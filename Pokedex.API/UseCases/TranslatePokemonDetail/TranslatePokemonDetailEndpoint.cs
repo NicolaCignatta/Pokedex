@@ -10,7 +10,7 @@ public static class TranslatePokemonDetailEndpoint
     public static void MapTranslatePokemonDetailEndpoint(this IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("/pokemon")
-            .WithTags("Translate Endpoints");
+            .WithTags("Pokemon Endpoints");
 
         group.MapGet("/translate/{name}", async (string name, 
                 [FromServices]ITranslatePokemonInformationQuery query, 
@@ -25,13 +25,13 @@ public static class TranslatePokemonDetailEndpoint
                         ApiErrorResponse.CreateValidationResponse("Validation errors!", "VALIDATION_ERROR", errors));
                 }
 
-                logger.LogInformation("Fetching details for pokemon: {Name}", name);
+                logger.LogInformation("Fetching translated details for Pokemon: {Name}", name);
                 var result = await query.Execute(name,cancellationToken);
                 return result.Match<IResult>(
                     pokemon =>
                     {
-                        logger.LogInformation("Pokemon {Name} found with ID {Id}", pokemon.Name, pokemon.Id);
-                        return Results.Ok(new GetPokemonDetailResponse(pokemon.Id,
+                        logger.LogInformation("Successfully fetched translated details for Pokemon: {Name}", name);
+                        return Results.Ok(new TranslatePokemonDetailResponse(pokemon.Id,
                             pokemon.Name,
                             pokemon.Description,
                             pokemon.HabitatName,
@@ -45,7 +45,7 @@ public static class TranslatePokemonDetailEndpoint
                     },
                     error =>
                     {
-                        logger.LogInformation("Error fetching pokemon {Name}: {ErrorMessage}. Code: {Code}", name, error.Message, error.Code);
+                        logger.LogInformation("Error translating pokemon {Name}: {ErrorMessage}. Code: {Code}", name, error.Message, error.Code);
                         return Results.BadRequest(ApiErrorResponse.CreateGenericResponse(error.Message, error.Code));
                     });
             })

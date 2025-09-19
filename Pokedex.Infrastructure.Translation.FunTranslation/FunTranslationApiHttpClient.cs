@@ -22,6 +22,8 @@ public class FunTranslationApiHttpClient(HttpClient httpClient, ILogger<HttpClie
     public async Task<OneOf<TranslatePokemonInformationResult, DomainError>> Translate(
         TranslatePokemonInformationCommand command, CancellationToken cancellationToken = default)
     {
+        logger.LogInformation("Starting translation for text: {TextToTranslate} to language: {LanguageCode}",
+            command.TextToTranslate, command.LanguageCodeToBeTranslated);
         var endpoint =
             FunTranslationApiEndpoints.GetTranslationEndpointByLanguage(command.LanguageCodeToBeTranslated,
                 command.TextToTranslate);
@@ -31,7 +33,8 @@ public class FunTranslationApiHttpClient(HttpClient httpClient, ILogger<HttpClie
                 command.TextToTranslate, command.LanguageCodeToBeTranslated);
             return DomainError.TranslationError();
         }
-
+        logger.LogInformation("translate: Using endpoint: {Endpoint}", endpoint);
+        
         var httpResponse = await GetAsync<TranslatePokemonDetailHttpResponse>(endpoint, cancellationToken);
         return httpResponse.Match<OneOf<TranslatePokemonInformationResult, DomainError>>(
             translation =>

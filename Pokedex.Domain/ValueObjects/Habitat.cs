@@ -1,7 +1,7 @@
 namespace Pokedex.Domain.ValueObjects;
 
 /// <summary>
-/// Static class containing language-related constants.
+/// Class representing the habitat of a Pokémon.
 /// </summary>
 public class Habitat
 {

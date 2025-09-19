@@ -5,12 +5,12 @@ using Pokedex.FunctionalTests.Configurations;
 namespace Pokedex.FunctionalTests.Tests;
 
 [Collection("ApiTestCollection")]
-public class GetPokemonDetailEndpointTests : IClassFixture<FunctionalTestFixture>
+public class TranslatePokemonDetailEndpointTests : IClassFixture<FunctionalTestFixture>
 {
     private readonly HttpClient _client;
     private readonly VerifySettings _settings;
 
-    public GetPokemonDetailEndpointTests(FunctionalTestFixture fixture)
+    public TranslatePokemonDetailEndpointTests(FunctionalTestFixture fixture)
     {
         _client = fixture.HttpClient;
         _settings = new VerifySettings();
@@ -18,13 +18,13 @@ public class GetPokemonDetailEndpointTests : IClassFixture<FunctionalTestFixture
     }
 
     [Fact]
-    public async Task GetPokemonDetail_WithValidName_ReturnsOkWithCorrectData()
+    public async Task TranslatePokemonDetail_WithCaveHabitatAndIsLegendary_ReturnsYodaTranslatedDescription()
     {
         // Arrange
-        var pokemonName = "pikachu";
+        var pokemonName = "registeel"; 
 
         // Act
-        var response = await _client.GetAsync($"/pokemon/{pokemonName}");
+        var response = await _client.GetAsync($"/pokemon/translate/{pokemonName}");
 
         // Assert
         var content = await response.Content.ReadAsStringAsync();
@@ -36,15 +36,69 @@ public class GetPokemonDetailEndpointTests : IClassFixture<FunctionalTestFixture
     }
 
     [Fact]
-    public async Task GetPokemonDetail_WithInvalidName_ReturnsNotFound()
+    public async Task TranslatePokemonDetail_WithNonExistingPokemon_ReturnsNotFound()
     {
         // Arrange
         var invalidPokemonName = "nonexistentpokemon123";
 
         // Act
-        var response = await _client.GetAsync($"/pokemon/{invalidPokemonName}");
+        var response = await _client.GetAsync($"/pokemon/translate/{invalidPokemonName}");
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+    
+    [Fact]
+    public async Task TranslatePokemonDetail_LegendaryPokemon_ReturnsYodaTranslated()
+    {
+        // Arrange
+        var pokemonName = "mewtwo"; 
+
+        // Act
+        var response = await _client.GetAsync($"/pokemon/translate/{pokemonName}");
+
+        // Assert
+        var apiResponse = await response.Content.ReadAsStringAsync();
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        await Verify(new
+        {
+            Content = apiResponse
+        }, _settings);
+    }
+
+    [Fact]
+    public async Task TranslatePokemonDetail_CavePokemon_ReturnsYodaTranslated()
+    {
+        // Arrange
+        var pokemonName = "articuno"; 
+
+        // Act
+        var response = await _client.GetAsync($"/pokemon/translate/{pokemonName}");
+
+        // Assert
+        var apiResponse = await response.Content.ReadAsStringAsync();
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        await Verify(new
+        {
+            Response = apiResponse
+        }, _settings);
+    }
+
+    [Fact]
+    public async Task TranslatePokemonDetail_NormalPokemon_ReturnsShakespeareTranslated()
+    {
+        // Arrange
+        var pokemonName = "pikachu"; 
+
+        // Act
+        var response = await _client.GetAsync($"/pokemon/translate/{pokemonName}");
+
+        // Assert
+        var apiResponse = await response.Content.ReadAsStringAsync();
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        await Verify(new
+        {
+            Content = apiResponse
+        }, _settings);
     }
 }

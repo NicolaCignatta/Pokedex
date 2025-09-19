@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Pokedex.API;
 using Pokedex.Domain;
 using Pokedex.Infrastructure.Http.PokemonAPI;
+using Pokedex.Infrastructure.Translation.FunTranslation;
 
 namespace Pokedex.FunctionalTests.Configurations
 {
@@ -41,7 +42,8 @@ namespace Pokedex.FunctionalTests.Configurations
                 var configuration = serviceProvider.GetRequiredService<IConfiguration>();
 
                 services.AddDomainServices();
-                services.AddHttpClientServices(configuration);
+                services.AddPokemonApiHttpClientServices(configuration);
+                services.AddTranslationHttpClientServices(configuration);
 
                 services.AddStackExchangeRedisCache(options =>
                 {

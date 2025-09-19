@@ -1,8 +1,10 @@
 using Microsoft.OpenApi.Models;
 using Pokedex.API.UseCases.GetPokemonDetail;
+using Pokedex.API.UseCases.TranslatePokemonDetail;
 using Pokedex.Domain;
 using Pokedex.Infrastructure.Cache.Redis;
 using Pokedex.Infrastructure.Http.PokemonAPI;
+using Pokedex.Infrastructure.Translation.FunTranslation;
 
 namespace Pokedex.API;
 
@@ -15,7 +17,8 @@ public class Program
         builder.Services.AddOpenApi();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddDomainServices();
-        builder.Services.AddHttpClientServices(builder.Configuration);
+        builder.Services.AddPokemonApiHttpClientServices(builder.Configuration);
+        builder.Services.AddTranslationHttpClientServices(builder.Configuration);
         builder.Services.AddOutputCaching(builder.Configuration);
 
 
@@ -54,6 +57,7 @@ public class Program
         app.UseOutputCache();
         app.UseHttpsRedirection();
         app.MapGetPokemonDetailEndpoint();
+        app.MapTranslatePokemonDetailEndpoint();
         app.Run();
     }
 }

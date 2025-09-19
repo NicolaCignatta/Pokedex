@@ -3,20 +3,16 @@ namespace Pokedex.Domain.ValueObjects;
 /// <summary>
 /// Static class containing language-related constants.
 /// </summary>
-public class Language
+public class Habitat
 {
-    public string Name { get; private set; }
-    public string Code { get; private set; }
+    public static readonly Habitat Cave = new("cave", "CAVE");
 
-    private Language(string name, string code)
+    private Habitat(string name, string code)
     {
         Name = name;
         Code = code;
     }
 
-    public static readonly Language English = new("English", "en");
-    public static readonly Language Yoda = new("Yoda", "yoda");
-    public static readonly Language Shakespeare = new("Shakespeare", "shakespeare");
-
-   public static readonly string DefaultCulture = English.Code;
+    public string Name { get; private set; }
+    public string Code { get; private set; }
 }

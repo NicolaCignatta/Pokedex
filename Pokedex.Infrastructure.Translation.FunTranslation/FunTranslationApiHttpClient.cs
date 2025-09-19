@@ -1,50 +1,52 @@
-using System.Net;
+using Microsoft.Extensions.Logging;
+using Pokedex.Domain.Interfaces.Translations;
+using Pokedex.Domain.Shared;
 using Pokedex.Infrastructure.Translation.FunTranslation.HttpResponses;
+using Pokedex.Shared.Infrastructure.Http;
+using OneOf;
 
 namespace Pokedex.Infrastructure.Translation.FunTranslation;
 
 /// <summary>
 /// Pokemon API HTTP client implementation for accessing Pokemon data from an external API.
 /// </summary>
-public class PokemonApiHttpClient(HttpClient httpClient, ILogger<HttpClientService> logger)
-    : HttpClientService(httpClient, logger), IPokemonReadOnlyRepository
+public class FunTranslationApiHttpClient(HttpClient httpClient, ILogger<HttpClientService> logger)
+    : HttpClientService(httpClient, logger), ITranslationService
 {
     /// <summary>
-    /// Method to get detailed information about a specific Pokemon by its name.
+    /// Method to translate Pokemon information using the FunTranslation API.
     /// </summary>
-    /// <param name="name"></param>
+    /// <param name="command"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<OneOf<Pokemon, NotFound, DomainError>> GetPokemonDetail(string name,CancellationToken cancellationToken = default)
+    public async Task<OneOf<TranslatePokemonInformationResult, DomainError>> Translate(
+        TranslatePokemonInformationCommand command, CancellationToken cancellationToken = default)
     {
-        var endpoint = PokemonApiEndpoints.GetPokemonDetail(name);
+        var endpoint =
+            FunTranslationApiEndpoints.GetTranslationEndpointByLanguage(command.LanguageCodeToBeTranslated,
+                command.TextToTranslate);
         if (endpoint == null)
         {
-            logger.LogError("GetPokemonDetail: Invalid endpoint for Pokemon name: {PokemonName}", name);
-            return DomainError.GetPokemonDetailError();
+            logger.LogError("translate: Invalid endpoint for text: {TextToTranslate} and language: {LanguageCode}",
+                command.TextToTranslate, command.LanguageCodeToBeTranslated);
+            return DomainError.TranslationError();
         }
 
-        var httpResponse = await GetAsync<GetPokemonDetailHttpResponse>(endpoint,cancellationToken);
-        return httpResponse.Match<OneOf<Pokemon, NotFound, DomainError>>(
-            pokemon =>
+        var httpResponse = await GetAsync<TranslatePokemonDetailHttpResponse>(endpoint, cancellationToken);
+        return httpResponse.Match<OneOf<TranslatePokemonInformationResult, DomainError>>(
+            translation =>
             {
-                if (pokemon == null)
-                {
-                    logger.LogError("GetPokemonDetail: Null response for Pokemon name: {PokemonName}", name);
-                    return DomainError.GetPokemonDetailError();
-                }
-                logger.LogInformation("GetPokemonDetail: Successfully retrieved details for Pokemon name: {PokemonName}", name);
-                return Pokemon.Materialize(pokemon.Id, pokemon.DefaultName, pokemon.DefaultFlavorText,
-                    pokemon.HabitatName, pokemon.IsLegendary);
+                logger.LogInformation(
+                    "translate: Successfully retrieved translation for text: {TextToTranslate} and language: {LanguageCode}",
+                    command.TextToTranslate, command.LanguageCodeToBeTranslated);
+                return new TranslatePokemonInformationResult(translation?.Contents?.Translated ?? string.Empty);
             },
             error =>
             {
-                logger.LogError("GetPokemonDetail: Error {StatusCode} for Pokemon name: {PokemonName}", error.StatusCode, name);
-                return error.StatusCode switch
-                {
-                    (int)HttpStatusCode.NotFound => new NotFound(),
-                    _ => DomainError.GetPokemonDetailError()
-                };
+                logger.LogError(
+                    "translate: Error {StatusCode} for text: {TextToTranslate} and language: {LanguageCode}",
+                    error.StatusCode, command.TextToTranslate, command.LanguageCodeToBeTranslated);
+                return DomainError.TranslationError();
             });
     }
 }

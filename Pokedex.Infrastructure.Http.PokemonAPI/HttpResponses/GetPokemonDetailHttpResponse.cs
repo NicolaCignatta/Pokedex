@@ -1,5 +1,5 @@
-using Pokedex.Domain.Shared;
 using System.Text.Json.Serialization;
+using Pokedex.Domain.ValueObjects;
 
 namespace Pokedex.Infrastructure.Http.PokemonAPI.HttpResponses;
 
@@ -50,6 +50,7 @@ public class NameEntry : ILocalizedResource
 {
     [JsonPropertyName("name")] public string Name { get; set; }
     [JsonPropertyName("language")] public NamedApiResource Language { get; set; }
+    
 }
 
 public class NamedApiResource

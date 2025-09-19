@@ -33,7 +33,7 @@ public static class GetPokemonDetailEndpoint
                         return Results.Ok(new GetPokemonDetailResponse(pokemon.Id,
                             pokemon.Name,
                             pokemon.Description,
-                            pokemon.Habitat,
+                            pokemon.HabitatName,
                             pokemon.IsLegendary
                         ));
                     },

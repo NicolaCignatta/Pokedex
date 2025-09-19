@@ -18,6 +18,7 @@
       <ProjectReference Include="..\Pokedex.Domain\Pokedex.Domain.csproj" />
       <ProjectReference Include="..\Pokedex.Infrastructure.Cache.Redis\Pokedex.Infrastructure.Cache.Redis.csproj" />
       <ProjectReference Include="..\Pokedex.Infrastructure.Http.PokemonAPI\Pokedex.Infrastructure.Http.PokemonAPI.csproj" />
+      <ProjectReference Include="..\Pokedex.Infrastructure.Translation.FunTranslation\Pokedex.Infrastructure.Translation.FunTranslation.csproj" />
       <ProjectReference Include="..\Pokedex.Shared.API\Pokedex.Shared.API.csproj" />
     </ItemGroup>
 

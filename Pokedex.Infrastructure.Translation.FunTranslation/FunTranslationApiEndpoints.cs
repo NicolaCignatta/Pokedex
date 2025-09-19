@@ -1,17 +1,39 @@
+using System.Net;
+using Pokedex.Domain.ValueObjects;
+
 namespace Pokedex.Infrastructure.Translation.FunTranslation;
 
 /// <summary>
-/// List of all endpoints for the Pokemon API.
+/// List of all endpoints for the FunTranslations API.
 /// </summary>
-public static class PokemonApiEndpoints
+public static class FunTranslationApiEndpoints
 {
-    /// <summary>
-    /// Pokemon detail endpoint.
-    /// </summary>
-    /// <param name="pokemonName"></param>
-    /// <returns></returns>
-    public static string? GetPokemonDetail(string? pokemonName)
+    
+    public static string? GetTranslateYodaApi(string textToTranslate)
     {
-        return string.IsNullOrWhiteSpace(pokemonName) ? null : $"pokemon-species/{pokemonName}";
+        return string.IsNullOrWhiteSpace(textToTranslate) ? null : $"translate/yoda.json?text={textToTranslate}";
+    }
+    
+    public static string? GetTranslateShakespeareApi(string textToTranslate)
+    {
+        return string.IsNullOrWhiteSpace(textToTranslate) ? null : $"translate/shakespeare.json?text={textToTranslate}";
+    }
+    
+    public static string? GetTranslationEndpointByLanguage(string language, string textToTranslate)
+    {
+        if(string.IsNullOrWhiteSpace(language) || string.IsNullOrWhiteSpace(textToTranslate))
+        {
+            return null;
+        }
+        
+        var sanitized = textToTranslate.Replace("\r", "").Replace("\n", " ");
+        var encodedTextToTranslate = WebUtility.UrlEncode(sanitized.Trim());
+
+        return language switch
+        {
+            _ when language == Language.Yoda.Code => GetTranslateYodaApi(encodedTextToTranslate),
+            _ when language == Language.Shakespeare.Code => GetTranslateShakespeareApi(encodedTextToTranslate),
+            _ => null
+        };
     }
 }

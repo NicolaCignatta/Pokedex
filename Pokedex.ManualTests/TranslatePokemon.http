@@ -1,7 +1,7 @@
 @Pokedex_HostAddress = https://localhost:7251
 @name = pikachu
 
-GET {{Pokedex_HostAddress}}/pokemon/{{name}}/
+GET {{Pokedex_HostAddress}}/pokemon/translate/{{name}}/
 Accept: application/json
 
 ###

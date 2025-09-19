@@ -1,9 +1,9 @@
+using OneOf;
 using OneOf.Types;
 using Pokedex.Domain.Aggregates;
 using Pokedex.Domain.Shared;
-using OneOf;
 
-namespace Pokedex.Domain.Queries.TranslatePokemonInformationQuery;
+namespace Pokedex.Domain.Interfaces.Queries;
 
 public interface ITranslatePokemonInformationQuery
 {

@@ -6,6 +6,7 @@ using Pokedex.Domain.Shared;
 using Pokedex.Shared.Infrastructure.Http;
 using OneOf;
 using OneOf.Types;
+using Pokedex.Domain.ValueObjects;
 using Pokedex.Infrastructure.Http.PokemonAPI.HttpResponses;
 
 namespace Pokedex.Infrastructure.Http.PokemonAPI;

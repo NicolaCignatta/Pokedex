@@ -13,4 +13,9 @@ public record DomainError(string Message, string Code)
     /// </summary>
     /// <returns></returns>
     public static DomainError GetPokemonDetailError() => new("Error in GetPokemonDetail API","GetPokemonDetailError");
+    /// <summary>
+    /// Factory method to create a DomainError for Translation API errors.
+    /// </summary>
+    /// <returns></returns>
+    public static DomainError TranslationError() => new("Error in Translation API","TranslationError");
 }

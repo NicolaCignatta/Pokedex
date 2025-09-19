@@ -1,9 +1,9 @@
 namespace Pokedex.API.UseCases.TranslatePokemonDetail;
 
 /// <summary>
-/// GetPokemonDetailEndpointValidator is responsible for validating the input parameters for the GetPokemonDetail endpoint.
+/// TranslatePokemonDetailEndpointValidator is responsible for validating the input parameters for the TranslatePokemon endpoint.
 /// </summary>
-public static class GetPokemonDetailEndpointValidator
+public static class TranslatePokemonDetailEndpointValidator
 {
     /// <summary>
     /// Validates all parameters and returns a tuple indicating if it's valid and any associated errors.

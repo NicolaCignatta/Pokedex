@@ -9,9 +9,9 @@ namespace Pokedex.Infrastructure.Translation.FunTranslation;
 /// <summary>
 /// Registration class for HTTP client services.
 /// </summary>
-public static class HttpClientServiceRegistration
+public static class TranslationApiHttpClientServiceRegistration
 {
-    public static IServiceCollection AddHttpClientServices(this IServiceCollection services,
+    public static IServiceCollection AddTranslationHttpClientServices(this IServiceCollection services,
         IConfiguration configuration)
     {
         var options = configuration.GetSection("FunTranslationHttpClientOptions").Get<HttpClientOptions>();

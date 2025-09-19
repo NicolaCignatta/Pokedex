@@ -25,7 +25,7 @@ namespace Pokedex.FunctionalTests.Configurations
             
             Port = _container.GetMappedPublicPort(6379);
             Host = _container.Hostname;
-            ConnectionString = $"localhost:{Port},abortConnect=false,connectTimeout=5000,syncTimeout=1000";
+            ConnectionString = $"{Host}:{Port},abortConnect=false,connectTimeout=5000,syncTimeout=1000";
         }
 
         public async Task DisposeAsync()

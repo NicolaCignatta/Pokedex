@@ -7,6 +7,7 @@ using Pokedex.API;
 using Pokedex.Domain;
 using Pokedex.Infrastructure.Http.PokemonAPI;
 using Pokedex.Infrastructure.Translation.FunTranslation;
+using StackExchange.Redis;
 
 namespace Pokedex.FunctionalTests.Configurations
 {
@@ -23,14 +24,15 @@ namespace Pokedex.FunctionalTests.Configurations
         {
             builder.ConfigureAppConfiguration((context, config) =>
             {
-                config.AddJsonFile("appsettings.json", optional: true);
-                config.AddJsonFile("appsettings.FunctionalTest.json", optional: false);
-                
                 var configValues = new Dictionary<string, string>
                 {
+                    // Configurazione Redis per Output Cache
                     ["RedisOutputCache:ConnectionString"] = _redisContainer.ConnectionString,
-                    ["RedisOutputCache:Host"] = "localhost",
+                    ["RedisOutputCache:Host"] = _redisContainer.Host,
                     ["RedisOutputCache:Port"] = _redisContainer.Port.ToString(),
+                    
+                    // Configurazione per abilitare Redis come provider di Output Cache
+                    ["OutputCache:DefaultProvider"] = "Redis",
                 };
                 
                 config.AddInMemoryCollection(configValues);
@@ -45,11 +47,39 @@ namespace Pokedex.FunctionalTests.Configurations
                 services.AddPokemonApiHttpClientServices(configuration);
                 services.AddTranslationHttpClientServices(configuration);
 
+                // Configurazione Redis per IDistributedCache (per compatibilità)
                 services.AddStackExchangeRedisCache(options =>
                 {
                     options.Configuration = _redisContainer.ConnectionString;
+                    options.ConfigurationOptions = new ConfigurationOptions()
+                    {
+                        EndPoints = { $"{_redisContainer.Host}:{_redisContainer.Port}" },
+                        AbortOnConnectFail = false,
+                        ConnectTimeout = 5000,
+                        SyncTimeout = 1000
+                    };
                     options.InstanceName = "Pokedex:FunctionalTest:";
                 });
+
+                // Configurazione Output Cache con Redis
+                services.AddOutputCache(options =>
+                {
+                    // Configurazione di base
+                    options.DefaultExpirationTimeSpan = TimeSpan.FromMinutes(5);
+                })
+                .AddStackExchangeRedisOutputCache(options =>
+                {
+                    options.Configuration = _redisContainer.ConnectionString;
+                    options.ConfigurationOptions = new ConfigurationOptions()
+                    {
+                        EndPoints = { $"{_redisContainer.Host}:{_redisContainer.Port}" },
+                        AbortOnConnectFail = false,
+                        ConnectTimeout = 5000,
+                        SyncTimeout = 1000
+                    };
+                    options.InstanceName = "Pokedex:OutputCache:FunctionalTest:";
+                });
+
                 services.AddLogging(builder =>
                 {
                     builder.ClearProviders();

@@ -37,8 +37,17 @@ The solution structure is as follows:
     *    **Unit Test**: validate all domain logics
     *    **Integration Test**: validate all integrations with external seervices, such as Pokemon and FunTranslation API
     *    **Functional Test**: validate E2E API flows.
+ 
+## 3. Key Feature Development (Pull Requests)
 
-## 3. How to Run the Project
+The core functionalities of this Pokedex API were primarily developed and integrated through the following Pull Requests:
+
+*   **Feature 1: Basic Pokemon Information**: This PR introduced the initial setup for retrieving basic Pokémon data from the PokéAPI.
+    *   [https://github.com/NicolaCignatta/Pokedex/pull/1](https://github.com/NicolaCignatta/Pokedex/pull/1)
+*   **Feature 2: Translated Pokemon Description**: This PR implemented the logic for translating Pokémon descriptions using the FunTranslations API, including conditional translation rules and fallback mechanisms.
+    *   [https://github.com/NicolaCignatta/Pokedex/pull/2](https://github.com/NicolaCignatta/Pokedex/pull/2)
+
+## 4. How to Run the Project
 
 To run the Pokedex API application, follow the steps below.
 

@@ -1,4 +1,5 @@
 using Pokedex.Domain.Interfaces.Aggregates;
+using Pokedex.Domain.ValueObjects;
 
 namespace Pokedex.Domain.Aggregates;
 
@@ -15,14 +16,14 @@ public class Pokemon : IAggregateRoot<int>
     /// <param name="id"></param>
     /// <param name="name"></param>
     /// <param name="description"></param>
-    /// <param name="habitat"></param>
+    /// <param name="habitatName"></param>
     /// <param name="isLegendary"></param>
-    private Pokemon(int id, string name, string description, string habitat, bool isLegendary)
+    private Pokemon(int id, string name, string description, string habitatName, bool isLegendary)
     {
         Id = id;
         Name = name;
         Description = description;
-        Habitat = habitat;
+        HabitatName = habitatName;
         IsLegendary = isLegendary;
     }
 
@@ -36,12 +37,15 @@ public class Pokemon : IAggregateRoot<int>
     /// <param name="id"></param>
     /// <param name="name"></param>
     /// <param name="description"></param>
-    /// <param name="habitat"></param>
+    /// <param name="habitatName"></param>
     /// <param name="isLegendary"></param>
     /// <returns></returns>
-    public static Pokemon Materialize(int id, string name, string description, string habitat, bool isLegendary)
+    public static Pokemon? Materialize(int id, string name, string description, string habitatName, bool isLegendary)
     {
-        return new Pokemon(id, name, description, habitat, isLegendary);
+        if (id <= 0 || string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(description) ||
+            string.IsNullOrWhiteSpace(habitatName))
+            return null;
+        return new Pokemon(id, name, description, habitatName, isLegendary);
     }
 
     #endregion
@@ -51,8 +55,43 @@ public class Pokemon : IAggregateRoot<int>
     public int Id { get; private set; }
     public string Name { get; private set; }
     public string Description { get; private set; }
-    public string Habitat { get; private set; }
+    public string HabitatName { get; private set; }
     public bool IsLegendary { get; private set; }
+    public Language MyLanguage => DetectLanguage();
+
+    #endregion
+
+    #region commands
+
+    /// <summary>
+    /// TranslateDescription updates the Description property with a translated version if it's different from the current one.
+    /// </summary>
+    /// <param name="descriptionTranslated"></param>
+    public void TranslateDescription(string descriptionTranslated)
+    {
+        if (string.IsNullOrWhiteSpace(descriptionTranslated) ||
+            descriptionTranslated.Equals(Description, StringComparison.OrdinalIgnoreCase))
+            return;
+        Description = descriptionTranslated;
+    }
+
+    #endregion
+
+    #region language methods
+
+    /// <summary>
+    /// Finds the appropriate language for the Pokemon based on its attributes.
+    /// </summary>
+    /// <returns></returns>
+    private Language DetectLanguage()
+    {
+        if (IsLegendary || HabitatName.Equals(Habitat.Cave.Name, StringComparison.OrdinalIgnoreCase))
+        {
+            return Language.Yoda;
+        }
+
+        return Language.Shakespeare;
+    }
 
     #endregion
 }

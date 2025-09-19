@@ -1,23 +1,24 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Pokedex.Domain.Interfaces.Repositories;
+using Pokedex.Domain.Interfaces.Translations;
 using Pokedex.Shared.Infrastructure.Http;
 
-namespace Pokedex.Infrastructure.Http.PokemonAPI;
+
+namespace Pokedex.Infrastructure.Translation.FunTranslation;
 
 /// <summary>
 /// Registration class for HTTP client services.
 /// </summary>
-public static class PokemonApiHttpClientServiceRegistration
+public static class TranslationApiHttpClientServiceRegistration
 {
-    public static IServiceCollection AddPokemonApiHttpClientServices(this IServiceCollection services,
+    public static IServiceCollection AddTranslationHttpClientServices(this IServiceCollection services,
         IConfiguration configuration)
     {
-        var options = configuration.GetSection("PokemonApiHttpClientOptions").Get<HttpClientOptions>();
+        var options = configuration.GetSection("FunTranslationHttpClientOptions").Get<HttpClientOptions>();
         if (options == null)
             throw new InvalidOperationException("HttpClientOptions section is missing in configuration.");
 
-        services.AddHttpClient<IPokemonReadOnlyRepository, PokemonApiHttpClient>((_, client) =>
+        services.AddHttpClient<ITranslationService, FunTranslationApiHttpClient>((_, client) =>
             {
                 client.BaseAddress = new Uri(options.BaseAddress);
                 client.Timeout = options.Timeout;
@@ -26,4 +27,6 @@ public static class PokemonApiHttpClientServiceRegistration
 
         return services;
     }
+    
+   
 }

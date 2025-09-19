@@ -21,7 +21,7 @@ public class PokemonApiHttpClientTests
 
         // Assert
         result.AsT0.Description.Should().NotBeNullOrWhiteSpace();
-        result.AsT0.Habitat.Should().NotBeNullOrWhiteSpace();
+        result.AsT0.HabitatName.Should().NotBeNull();
         result.AsT0.Id.Should().BeGreaterThan(0);
         result.AsT0.Name.Should().NotBeNullOrWhiteSpace();
     }

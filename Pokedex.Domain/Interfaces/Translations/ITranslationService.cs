@@ -1,14 +1,20 @@
+using Pokedex.Domain.Shared;
+using OneOf;
+
 namespace Pokedex.Domain.Interfaces.Translations;
 
+/// <summary>
+/// Interface for translation services.
+/// </summary>
 public interface ITranslationService
 {
-    Task<TranslatePokemonInformationResult> TranslatePokemonInformation(TranslatePokemonInformationCommand command);
+    Task<OneOf<TranslatePokemonInformationResult, DomainError>> Translate(TranslatePokemonInformationCommand command,CancellationToken cancellationToken = default);
 }
 
 #region ITranslateService models results
 
 /// <summary>
-/// 
+/// TranslatePokemonInformationResult represents the result of translating Pokemon information.
 /// </summary>
 /// <param name="Description"></param>
 public record TranslatePokemonInformationResult(
@@ -20,12 +26,12 @@ public record TranslatePokemonInformationResult(
 #region ITranslateService commands
 
 /// <summary>
-/// 
+/// TranslatePokemonInformationCommand represents the command to translate Pokemon information.
 /// </summary>
-/// <param name="Name">Pokemon name</param>
+/// <param name="TextToTranslate">Pokemon name</param>
 /// <param name="LanguageCodeToBeTranslated">Language code to be translated</param>
 public record TranslatePokemonInformationCommand(
-    string Name,
+    string TextToTranslate,
     string LanguageCodeToBeTranslated
 );
 
